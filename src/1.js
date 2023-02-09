@@ -1,20 +1,66 @@
 import { createElement } from "./helper"
-let count = 1
-const div = createElement(`
-  <div class="module1">
-    <h1>模块1</h1>
-    <div id="count">${count}</div>
-    <div><button>+1</button></div>
-  </div>
-`)
-const button = div.querySelector('button')
-// 点击按钮就更新 count
-button.addEventListener('click', () => {
-  count += 1
-  div.querySelector('#count').textContent = count // 局部更新
-})
-const mount = (container) => {
-  container.append(div)
+import { compile } from 'handlebars'
+import { EventEmitter } from "./event_emitter"
+// 最小知识原则
+class Model extends EventEmitter {
+  data = { count: 1 }
+  add() {
+    this.data.count += 1
+    this.emit('changed')
+  }
+  minus() {
+    this.data.count -= 1
+    this.emit('changed')
+  }
 }
-export { mount }
+const model = new Model()
+
+export const view = {
+  model: model,
+  element: null,
+  container: null,
+  template: `
+    <div class="module1">
+      <h1>模块1</h1>
+      <div id="count">{{count}}</div>
+      <div><button>+1</button></div>
+      <div><button class="btn2">-1</button></div>
+    </div>
+  `,
+  init(container) {
+    this.model = model
+    this.container = container
+    this.element = this.render()
+    this.mount()
+    this.model.on('changed', () => {
+      this.update()
+    })
+  },
+  render() {
+    const html = compile(this.template)(this.model.data)
+    const element = createElement(html)
+    this.bindEvents(element)
+    return element
+  },
+  bindEvents(element) {
+    const button = element.querySelector('button')
+    button.addEventListener('click', () => {
+      this.model.add()
+    })
+    const button2 = element.querySelector('.btn2')
+    button2.addEventListener('click', () => {
+      this.model.minus()
+    })
+  },
+  mount() {
+    this.container.append(this.element)
+  },
+  update() {
+    const newElement = this.render()
+    this.element.replaceWith(newElement)
+    this.element = newElement
+  }
+}
+
+
 
