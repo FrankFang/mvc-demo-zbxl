@@ -16,7 +16,7 @@ export const view = {
   element: null,
   container: null,
   template: `
-    <div class="module">
+    <div class="module2">
       <h1>模块2</h1>
       <div><span>用户名</span><input value="{{name}}" /></div>
       <div>你输入的是：<span id="output">{{name}}<span></div>
