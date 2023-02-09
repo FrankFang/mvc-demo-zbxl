@@ -5,16 +5,15 @@ import { view as view2 } from './2.js'
 import { view as view3 } from './3.js'
 import { view as homeView } from './home.js'
 import { view as notFoundView } from './not_found.js'
+import { globalEventEmitter } from './event_emitter'
 
 const nav = document.getElementById('nav')
 const content = document.getElementById('content')
 
 navView.init(nav)
 
-const route = () => {
-  let { hash } = window.location
-  hash = hash.slice(1) || '/'
-  switch (hash) {
+const route = (path) => {
+  switch (path) {
     case '/':
       homeView.init(content)
       break;
@@ -33,10 +32,9 @@ const route = () => {
   }
 }
 
-route()
-// 监听 hashchange 事件
-window.addEventListener('hashchange', () => {
-  route()
+route(window.location.pathname)
+globalEventEmitter.on('historychange', (path) => {
+  route(path)
 })
 
 

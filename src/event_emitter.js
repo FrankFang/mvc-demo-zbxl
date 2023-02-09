@@ -18,3 +18,7 @@ export class EventEmitter {
     })
   }
 }
+
+const eventEmitter = new EventEmitter()
+
+export { eventEmitter as globalEventEmitter }

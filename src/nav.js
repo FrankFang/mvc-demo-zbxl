@@ -1,6 +1,6 @@
 import { createElement } from "./helper"
 import { compile } from 'handlebars'
-import { EventEmitter } from "./event_emitter"
+import { EventEmitter, globalEventEmitter } from "./event_emitter"
 
 export const view = {
   element: null,
@@ -13,6 +13,8 @@ export const view = {
         <a href="#/page1">模块1</a>
         <a href="#/page2">模块2</a>
         <a href="#/page3">模块3</a>
+        <button class="test">test</button>
+        <button class="test2">模块1</button>
       </div>
     </div>
   `,
@@ -28,6 +30,16 @@ export const view = {
     return element
   },
   bindEvents(element) {
+    const btn = element.querySelector('.test')
+    btn.addEventListener('click', () => {
+      window.history.pushState({}, null, '/frank')
+      globalEventEmitter.emit('historychange', '/frank')
+    })
+    const btn2 = element.querySelector('.test2')
+    btn2.addEventListener('click', () => {
+      window.history.pushState({}, null, '/page1')
+      globalEventEmitter.emit('historychange', '/page1')
+    })
   },
   mount() {
     this.container.innerHTML = ''
