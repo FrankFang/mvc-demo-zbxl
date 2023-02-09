@@ -9,10 +9,10 @@ export const view = {
     <div class="moduleNav">
       <div>
         <span>导航</span>
-        <a href="/">首页</a>
-        <a href="/page1">模块1</a>
-        <a href="/page2">模块2</a>
-        <a href="/page3">模块3</a>
+        <a href="#/">首页</a>
+        <a href="#/page1">模块1</a>
+        <a href="#/page2">模块2</a>
+        <a href="#/page3">模块3</a>
       </div>
     </div>
   `,
@@ -30,6 +30,7 @@ export const view = {
   bindEvents(element) {
   },
   mount() {
+    this.container.innerHTML = ''
     this.container.append(this.element)
   },
   update() {

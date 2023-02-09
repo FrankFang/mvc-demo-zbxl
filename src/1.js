@@ -53,6 +53,7 @@ export const view = {
     })
   },
   mount() {
+    this.container.innerHTML = ''
     this.container.append(this.element)
   },
   update() {

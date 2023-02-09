@@ -7,7 +7,7 @@ export const view = {
   container: null,
   template: `
     <div class="moduleHome">
-      <h1> 首页 </h1>
+      <h1> 不存在的页面 </h1>
     </div>
   `,
   init(container) {
