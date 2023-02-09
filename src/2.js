@@ -10,7 +10,6 @@ class Model extends EventEmitter {
   }
 }
 const model = new Model()
-console.dir(model)
 
 export const view = {
   model: model,
